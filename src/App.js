@@ -1,25 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import { withNamespaces, Trans } from 'react-i18next';
+import "@narmi/design_system/dist/style.css";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  render() {
+    const { t, i18n } = this.props;
+
+    const changeLanguage = lng => {
+      i18n.changeLanguage(lng);
+    };
+
+    return (
+      <div className="App alignChild--center--center padding--all--xxl">
+        <div>
+          <header className="margin--bottom--xl">
+            <div className="margin--bottom--l">
+              <button onClick={() => changeLanguage('de')}>de</button>
+              <button onClick={() => changeLanguage('en')}>en</button>
+            </div>
+            <h2 className="fontSize--heading1 fontFamily--heading fontColor--heading">
+              {t('title')}
+            </h2>
+          </header>
+          <p>
+            <Trans i18nKey="description_1">
+              To get started, edit <code>src/App.js</code> and save to reload.
+            </Trans>
+          </p>
+          <p>
+            {t('description_2')}
+          </p>
+          <p>
+            <Trans i18nKey="emails" values={{ unreadEmails: 5 }}>
+              You have <strong>one</strong> unread email.
+            </Trans>
+          </p>
+        </div>
+      </div>
+    );
+  }
 }
 
-export default App;
+export default withNamespaces('aqua')(App);
