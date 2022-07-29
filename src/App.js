@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { withNamespaces, Trans } from 'react-i18next';
 import "@narmi/design_system/dist/style.css";
+import './i18n';
 
 class App extends Component {
   render() {
