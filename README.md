@@ -1,70 +1,39 @@
-# Getting Started with Create React App
+## i18next-fluent dist issues
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This repo is a minimal example of i18next-fluent modules being incompatible with common consumers.
 
-## Available Scripts
+This example uses create-react-app with react-app-rewired, but the issues can also reproduced in NextJS.
 
-In the project directory, you can run:
+### The errors
 
-### `npm start`
+`i18next-fluent-backend` references a `lib` directory when importing `ftl2js`:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```
+Creating an optimized production build...
+Failed to compile.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Module not found: Error: Package path ./lib/ftl2js is not exported from package /Users/akdetrick/narmi/poc-rewired-fluent/node_modules/fluent_conv (see exports field in /Users/akdetrick/narmi/poc-rewired-fluent/node_modules/fluent_conv/package.json)
+```
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+When the backend is removed as a dependency, we still get the following errors:
 
-### `npm run build`
+```
+Failed to compile.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Module parse failed: 'import' and 'export' may appear only with 'sourceType: module' (1:0)
+File was processed with these loaders:
+ * ./node_modules/babel-loader/lib/index.js
+ * ./node_modules/source-map-loader/dist/cjs.js
+You may need an additional loader to handle the result of these loaders.
+> import { FluentParser } from "./parser.js";
+| import { FluentSerializer } from "./serializer.js";
+| export * from "./ast";
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### How to reproduce these errors
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+1. use create-react-app OR NextJS to initialize a new project
+2. add dependencies for `i18next` fluent support with backend
+3. add the `i18n.js` config to the project
+4. `npm run build`
