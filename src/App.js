@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withNamespaces, Trans } from 'react-i18next';
+import { withTranslation, Trans } from 'react-i18next';
 import "@narmi/design_system/dist/style.css";
 import './i18n';
 
@@ -24,7 +24,7 @@ class App extends Component {
             </h2>
           </header>
           <p>
-            <Trans i18nKey="description_1">
+            <Trans t={t} i18nKey="description_1">
               To get started, edit <code>src/App.js</code> and save to reload.
             </Trans>
           </p>
@@ -32,7 +32,7 @@ class App extends Component {
             {t('description_2')}
           </p>
           <p>
-            <Trans i18nKey="emails" values={{ unreadEmails: 5 }}>
+            <Trans t={t} i18nKey="emails" values={{ unreadEmails: 5 }}>
               You have <strong>one</strong> unread email.
             </Trans>
           </p>
@@ -42,4 +42,4 @@ class App extends Component {
   }
 }
 
-export default withNamespaces('aqua')(App);
+export default withTranslation('aqua')(App);
